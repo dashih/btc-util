@@ -1,0 +1,2 @@
+# 0 2 * * * /home/danny/bitcoin-27.0/bin/bitcoind -daemon
+# 0 14 * * * /home/danny/bitcoin-27.0/bin/bitcoin-cli stop
