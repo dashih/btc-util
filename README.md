@@ -9,14 +9,17 @@ I have found `bitcoind` to be more stable to run as a full node. It is also easi
 Kubuntu 24.04 Live and minimal installation can run `bitcoin-qt` without additional dependencies being installed.
 
 ## Configuration
-`bitcoind` configuration is in `~/.bitcoin/bitcoin.conf`, which is standard for *nix systems according to the documentation.
-
-On Kubuntu 24.04, `bitcoin-qt` configuration is in `~/.config/Bitcoin/Bitcoin-Qt.conf`, which is undocumented.
-
-In both, the data directory can be set to point to a bigger disk:
+`bitcoind` configuration is in `~/.bitcoin/bitcoin.conf`, which is standard for *nix systems according to the documentation. This configuration file may be used to set the datadir and wallet dir:
 
 ```
 datadir=/mnt/blockchain
+walletdir=/mnt/wallets
+```
+
+On Kubuntu 24.04, `bitcoin-qt` configuration is in `~/.config/Bitcoin/Bitcoin-Qt.conf`, which is undocumented. Much easier to configure the GUI with command-line parameters at launch:
+
+```
+bitcoin-qt -datadir=/mnt/blockchain -walletdir=/mnt/wallets
 ```
 
 ## Initial Block Download (IBD)
