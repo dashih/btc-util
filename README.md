@@ -19,7 +19,7 @@ walletdir=/mnt/wallets
 On Kubuntu 24.04, `bitcoin-qt` configuration is in `~/.config/Bitcoin/Bitcoin-Qt.conf`, which is undocumented. Much easier to configure the GUI with command-line parameters at launch:
 
 ```
-bitcoin-qt -datadir=/mnt/blockchain -walletdir=/mnt/wallets
+bitcoin-qt -datadir=/mnt/blockchain -walletdir=/mnt/wallets -server
 ```
 
 ## Initial Block Download (IBD)
