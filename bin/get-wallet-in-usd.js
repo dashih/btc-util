@@ -12,5 +12,7 @@ const execSync = require('child_process').execSync;
         style: 'currency',
         currency: 'USD'
     });
+
+    console.log(`${walletInBtc} BTC`);
     console.log(formatter.format(usdToBtc * walletInBtc));
 })();
