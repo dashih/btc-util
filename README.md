@@ -4,7 +4,7 @@ Learnings and helper scripts running Bitcoin Core as of July 2024
 ## daemon, CLI, and GUI
 Bitcoin Core is the de facto standard that miners and nodes use to maintain the BTC blockchain. The project releases a daemon (`bitcoind`), a CLI (`bitcoin-cli`), and a QT-based GUI (`bitcoin-qt`). `bitcoin-qt` appears to package its own backend and cannot use an already-running `bitcoind`. `bitcoin-cli` can run against either `bitcoind` or a `bitcoin-qt`.
 
-`bitcoin-qt` offers some niceties like QR codes, and honestly, you just want a real UI for a wallet. The only disadvantage is it does not support programmatically toggling full node functionality. So if you're running short on ISP bandwidth, you're better off using `bitcoind` and cron to start/stop it.
+`bitcoin-qt` offers some niceties like QR codes, and honestly, you just want a real UI for a wallet. The only disadvantage is it does not support programmatically toggling full node functionality. So if you're running short on ISP bandwidth, you're better off using `bitcoind` and cron to schedule it.
 
 ## Distro and desktop
 KDE Neon, currently presenting Plasma 6 and based on Ubuntu 22.04 LTS, can run `bitcoin-qt` out-of-the-box. And it is quite snazzy, so I find it satisfactory for use on both an online/hot and offline/cold host.
@@ -23,7 +23,7 @@ walletdir=/mnt/wallets
 bitcoin-qt -datadir=/mnt/blockchain -walletdir=/mnt/wallets -server
 ```
 
-Note that `-server` causes it to run the RPC allowing for interaction using `bitcoin-cli`. This is handy for scripts even if you mostly use the UI.
+Note that `-server` causes it to serve the JSON-RPC API, allowing for interaction using `bitcoin-cli`. This is handy for scripts even if you mostly use the UI.
 
 Lastly, on KDE, you can use the `Menu Editor` application to create a launcher with the above command and args, and pin it to the task manager.
 
