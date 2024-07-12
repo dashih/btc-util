@@ -21,5 +21,5 @@ const execSync = require('child_process').execSync;
         currency: 'USD'
     });
 
-    console.log(`${formatter.format(usdToBtc * walletInBtc)} | ${walletInBtc} BTC | ${formatter.format(usdToBtc)} per BTC | ${numInbound} inbound peers | ${score} score (${count})`);
+    console.log(`${formatter.format(usdToBtc * walletInBtc)} | ${walletInBtc} BTC | ${formatter.format(usdToBtc)} per BTC | ${numInbound} inbound | ${score} score`);
 })();
