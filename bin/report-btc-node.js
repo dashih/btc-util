@@ -16,5 +16,10 @@ const execSync = require('child_process').execSync;
     const numInbound = nodeData['connections_in'];
     const score = nodeData['localaddresses'][0]['score'];
 
+    const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD'
+    });
+
     console.log(`${formatter.format(usdToBtc * walletInBtc)} | ${walletInBtc} BTC | ${formatter.format(usdToBtc)} per BTC | ${numInbound} inbound peers | ${score} score (${count})`);
 })();
