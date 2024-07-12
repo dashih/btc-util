@@ -1,29 +1,34 @@
 # btc-util
-Learnings and helper scripts running Bitcoin Core
+Learnings and helper scripts running Bitcoin Core as of July 2024
 
 ## daemon, CLI, and GUI
-Bitcoin Core is the official software that miners and nodes use to maintain the BTC blockchain. The project releases a daemon (`bitcoind`), a CLI (`bitcoin-cli`), and a QT-based GUI (`bitcoin-qt`). You might think that the daemon is shared; that once running, the CLI and GUI can both interface against it. However, as of June 2024, this is not the case. Only the CLI can work with `bitcoind`. The GUI actually starts its own daemon - not sure how/if it is different from `bitcoind`. Furthermore, the CLI and GUI cannot both run at the same time against the same data directory.
+Bitcoin Core is the de facto standard that miners and nodes use to maintain the BTC blockchain. The project releases a daemon (`bitcoind`), a CLI (`bitcoin-cli`), and a QT-based GUI (`bitcoin-qt`). `bitcoin-qt` appears to package its own backend and cannot use an already-running `bitcoind`. `bitcoin-cli` can run against either `bitcoind` or a `bitcoin-qt`.
 
-I have found `bitcoind` to be more stable to run as a full node. It is also easier to manage a schedule with it. Annoyingly however, it must be shutdown to use the GUI, which is much more convenient to actually perform transactions.
+`bitcoin-qt` offers some niceties like QR codes, and honestly, you just want a real UI for a wallet. The only disadvantage is it does not support programmatically toggling full node functionality. So if you're running short on ISP bandwidth, you're better off using `bitcoind` and cron to start/stop it.
 
-Kubuntu 24.04 Live and minimal installation can run `bitcoin-qt` without additional dependencies being installed.
+## Distro and desktop
+KDE Neon, currently presenting Plasma 6 and based on Ubuntu 22.04 LTS, can run `bitcoin-qt` out-of-the-box. And it is quite snazzy, so I find it satisfactory for use on both an online/hot and offline/cold host.
 
 ## Configuration
-`bitcoind` configuration is in `~/.bitcoin/bitcoin.conf`, which is standard for *nix systems according to the documentation. This configuration file may be used to set the datadir and wallet dir:
+`~/.bitcoin/bitcoin.conf` configures `bitcoind` and `bitcoin-cli`:
 
 ```
 datadir=/mnt/blockchain
 walletdir=/mnt/wallets
 ```
 
-On Kubuntu 24.04, `bitcoin-qt` configuration is in `~/.config/Bitcoin/Bitcoin-Qt.conf`, which is undocumented. Much easier to configure the GUI with command-line parameters at launch:
+`bitcoin-qt` also uses a `bitcoin.conf` file, but not the one above for some dumb reason. The one it respects it buried away, so it's probably easier to use command-line arguments:
 
 ```
 bitcoin-qt -datadir=/mnt/blockchain -walletdir=/mnt/wallets -server
 ```
 
+Note that `-server` causes it to run the RPC allowing for interaction using `bitcoin-cli`. This is handy for scripts even if you mostly use the UI.
+
+Lastly, on KDE, you can use the `Menu Editor` application to create a launcher with the above command and args, and pin it to the task manager.
+
 ## Initial Block Download (IBD)
-This takes forever as the entire blockchain must be downloaded and processed. As of Juen 2024, it is taking 625 GB. The process can be sped up dramatically by increasing Bitcoin Core's database cache memory size.
+This takes forever as the entire blockchain must be downloaded and processed. As of June 2024, it is taking 625 GB. The process can be sped up dramatically by increasing Bitcoin Core's database cache memory size.
 
 Use the daemon executable. Allocate as much RAM as you can spare and add this configuration to `bitcoin.conf`:
 ```
