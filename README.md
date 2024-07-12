@@ -35,6 +35,11 @@ Use the daemon executable. Allocate as much RAM as you can spare and add this co
 dbcache=16384
 ```
 
+## Contributing a full node
+Port 8333 must be routable for your full node to service incoming connections. So that port will need to be let through the firewalls (edge and system), and the IPv4 address will need to be NAT'd. As such, static addressing is likely in order.
+
+The IP addresses do not have to be registered anywhere, however; the BTC network will spread the word. So there's no need for external DNS either, unless you want to be able to easily configure an application (like a Lightning wallet) to specifically use this node.
+
 ## Cold wallet
 An interesting setup supported by Bitcoin Core is to run a pair of wallets, one cold and one hot. The cold wallet contains full BTC addresses including the private keys needed to sign sends. It is air-gapped, i.e. never exposed to the Internet or any network. The hot wallet runs on a Bitcoin Core Full Node but only contains partial BTC addresses (just the public keys). It can only receive BTC.
 
