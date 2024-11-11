@@ -10,6 +10,11 @@ const execSync = require('child_process').execSync;
     const walletData = execSync('bitcoin-cli getwalletinfo').toString();
     const walletInBtc = JSON.parse(walletData)['balance'];
 
+    // Gains/loss
+    const costBasis = 67809.13;
+    const walletInUsd = usdToBtc * walletInBtc;
+    const change = (walletInUsd - costBasis) / costBasis;
+
     // Node/network data
     const nodeDataRaw = execSync('bitcoin-cli getnetworkinfo').toString();
     const nodeData = JSON.parse(nodeDataRaw);
@@ -21,5 +26,15 @@ const execSync = require('child_process').execSync;
         currency: 'USD'
     });
 
-    console.log(`\x1b[32m${formatter.format(usdToBtc * walletInBtc)}\x1b[0m | \x1b[33m${walletInBtc} BTC\x1b[0m | ${formatter.format(usdToBtc)} per BTC | ${numInbound} inbound | ${score} score`);
+    // Pretty print
+    let changePrint = `${(change * 100).toFixed(1)}%`;
+    if (change > 0.0) {
+        changePrint = `\x1b[92m+${changePrint}\x1b[0m`;
+    } else {
+        changePrint = `\x1b[91m${changePrint}\x1b[0m`;
+    }
+
+    const currentValue = `\x1b[93m${formatter.format(walletInUsd)}\x1b[0m (${changePrint})`;
+    const rawBtc = `\x1b[33m${walletInBtc} BTC\x1b[0m`;
+    console.log(`${currentValue} | ${rawBtc} | ${formatter.format(usdToBtc)} per BTC | ${numInbound} inbound | ${score} score`);
 })();
