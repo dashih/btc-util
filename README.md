@@ -20,10 +20,12 @@ walletdir=/mnt/wallets
 `bitcoin-qt` also uses a `bitcoin.conf` file, but not the one above for some dumb reason. The one it respects it buried away, so it's probably easier to use command-line arguments:
 
 ```
-bitcoin-qt -datadir=/mnt/blockchain -walletdir=/mnt/wallets -server
+bitcoin-qt -datadir=/mnt/blockchain -walletdir=/mnt/wallets -dbcache=1792 -server
 ```
 
-Note that `-server` causes it to serve the JSON-RPC API, allowing for interaction using `bitcoin-cli`. This is handy for scripts even if you mostly use the UI.
+`-server` causes it to serve the JSON-RPC API, allowing for interaction using `bitcoin-cli`. This is handy for scripts even if you mostly use the UI.
+
+`-dbcache` increases the amount of RAM available for the kind of caching that makes processing new blocks faster. Allocating a lot for this can dramatically speed up the IBD (see below), but giving a bit more is also helpful for catching up if you haven't run the node for more than a week.
 
 Lastly, on KDE, you can use the `Menu Editor` application to create a launcher with the above command and args, and pin it to the task manager.
 
