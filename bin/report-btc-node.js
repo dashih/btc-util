@@ -24,9 +24,11 @@ const execSync = require('child_process').execSync;
 
     // Uptime
     const nodeUptimeS = parseInt(execSync('bitcoin-cli uptime').toString());
-    const uptimeDays = Math.floor(nodeUptimeS / (24 * 60 * 60));
-    const remainingS = nodeUptimeS % (24 * 60 * 60);
-    const uptimeRemainingHours = Math.floor(remainingS / (60 * 60));
+    const days = Math.floor(nodeUptimeS / (24 * 60 * 60));
+    let remainder = nodeUptimeS % (24 * 60 * 60);
+    const hours = Math.floor(remainder / (60 * 60));
+    remainder = remainder % (60 * 60);
+    const mins = Math.floor(remainder / 60);
 
     const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
@@ -44,5 +46,5 @@ const execSync = require('child_process').execSync;
 
     const currentValue = `\x1b[93m${formatter.format(walletInUsd)}\x1b[0m`;
     console.log(`${currentValue} (${walletInBtc} BTC) | ${changePrint} | ${formatter.format(usdToBtc)} per BTC`);
-    console.log(`${uptimeDays} days ${uptimeRemainingHours} hours | ${numInbound} inbound | ${score} score`);
+    console.log(`${days}d ${hours}h ${mins}m | ${numInbound} inbound | ${score} score`);
 })();
